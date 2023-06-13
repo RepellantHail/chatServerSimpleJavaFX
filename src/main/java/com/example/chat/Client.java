@@ -140,10 +140,12 @@ public class Client extends Application implements RemoteClientInterface {
         chatMessages.set(chatMessages.get() + message + "\n");
     }
 
+    public void clearMessageArea(){
+        messageArea.clear();
+        chatMessages.set("");
+    }
+
     public List<String> getServerMessageHistory() throws RemoteException {
-//        for (String message : server.getMessageHistory()) {
-//            System.out.println(message);
-//        }
         return server.getMessageHistory();
     }
 

@@ -33,29 +33,21 @@ public class Controller {
         if (!message.isEmpty()) {
             client.setClientName("Client 1");
             try {
-                //client.addMessageToArea(message);
                 messageField.clear();
-                client.updateMessageArea(client.getClientName() + ": " + message);
                 client.sendMessage(message);
-
-
-                // Retrieve the full message history from the server and update the text area
                 List<String> messageHistory = client.getServerMessageHistory();
-                for (String msg : messageHistory) {
-                    System.out.println(msg);
-                    client.updateMessageArea(msg);
-                }
                 messageHistory.add(client.getClientName() + ": " + message);
-                StringBuilder historyBuilder = new StringBuilder();
-                for (String msg : messageHistory) {
-                    historyBuilder.append(msg).append("\n");
-                }
-
-
+                System.out.println("****New Message****");
+                client.clearMessageArea();
                 Platform.runLater(() -> {
-                    //messageArea.setText(historyBuilder.toString());
-                    for (String msg : messageHistory) {
-                        messageArea.appendText(msg);
+                    messageArea.selectRange(0, messageArea.getLength());
+                    messageArea.cut();
+                    for (int i = 0; i < messageHistory.size() - 1; i++) {
+                        client.updateMessageArea(messageHistory.get(i));
+                        System.out.println(messageHistory.get(i));
+                    }
+                    if (!messageHistory.isEmpty()) {
+                        messageArea.appendText(messageHistory.get(messageHistory.size() - 1));
                     }
                 });
             }  catch (Exception e) {
